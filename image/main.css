@@ -1,0 +1,47 @@
+body {
+    background-color:#F0F0F0;
+    padding: 2em;
+    font-family: 'Raleway','Source Sans Pro', 'Arial';
+}
+.container {
+    width: 95%;
+    margin: 0 auto;
+}
+.right {
+    position: absolute;
+    right: 0px;
+    width: 300px;
+    border: 3px solid #73AD21;
+    padding: 10px;
+  }
+label {
+    display:block;
+    margin-bottom:10px;
+    font-weight: bold;
+    
+}
+input {
+    padding:10px;
+    width: 100%;
+    margin-bottom: 1em;
+}
+button {
+    width:150px;
+}
+#result {
+    padding:1em;
+    background-color:#fff;
+    margin: 1em 0;
+}
+img{
+
+    width:150px;
+
+}
+p{
+    display:block;
+    margin-bottom:10px;
+    font-weight: bold;
+    text-align: center;
+}
+

@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">    
+<head>
+    <title>*****ToroCafe*****</title>
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <script src="./node_modules/web3/dist/web3.min.js">
+    </script>
+</head>
+<body>
+    <div class="w3-bar w3-round w3-white">
+        <a href="index.html" class="w3-bar-item w3-button">Home</a>
+        <a class="w3-right w3-bar-item yourAccount"></a>
+      </div>
+    <div class="w3-row ">
+        <div class="w3-container w3-half">
+            <tmain>
+                <h1>ToroMenu</h1>
+        <table>
+            <label>Desserts</label>
+            <tr>
+                <th>DS_Toro1</th>
+                <th>DS_Toro2</th> 
+                <th>DS_Toro3</th>
+            </tr>
+            <tr>
+                <td> <img src="/image/dstoro1.jpg" alt="dstoro1"> </td>
+                <td> <img src="/image/dstoro22.jpg" alt="dstoro2"></td>
+                <td> <img src="/image/dstoro3.jpg" alt="dstoro3"> </td>         
+            </tr>   
+            <tr>
+                <td> <button id="btDsOrder1">Order</button></td>
+                <td> <button id="btDsOrder2" >Order</button></td>
+                <td> <button id="btDsOrder3" >Order</button></td>       
+            </tr> 
+             <tr>
+                <td><p>0.02 Ether</p></td>
+                <td><p>0.03 Ether</p></td>
+                <td><p>0.01 Ether</p></td>       
+            </tr> 
+        </table>
+        <br>
+        
+        <table>
+            <label>Drink</label>
+            <tr>
+                <th>D_Toro1</th>
+                <th>D_Toro2</th>
+                <th>D_Toro3</th>
+            </tr>
+            <tr>
+                <td> <img src="/image/dtoro1.jpg" alt="dtoro1"> </td>
+                <td> <img src="/image/dtoro2.jpg" alt="dtoro2"></td>
+                <td> <img src="/image/dtoro3.jpg" alt="dtoro3"> </td>         
+            </tr>   
+            <tr>
+                <tr>
+                    <td> <button id="btDOrder1">Order</button></td>
+                    <td> <button id="btDOrder2" >Order</button></td>
+                    <td> <button id="btDOrder3" >Order</button></td>       
+                </tr> 
+            <tr>
+                <td><p>0.01 Ether</p></td>
+                <td><p>0.02 Ether</p></td>
+                <td><p>0.03 Ether</p></td>       
+            </tr> 
+            
+        </table>
+        </tmain>
+
+        </div>
+        <div class="w3-container w3-half">
+            <br><br><br><br>
+            <tmain class="w3-table-all w3-large">
+                
+                <h1>Order Desserts</h1>
+          
+                <table style="width:100%">
+                   <thead>
+                    <tr>
+                      <th>Time</th>
+                      <th>Order</th>
+                    </tr>
+                </thead>
+                <tbody>   
+                    <tr>
+                        <td id="DSTime"></td>
+                        <td id="DSOrder"></td>
+                    </tr>
+                </tbody>    
+                  </table>
+                  <br><br>
+                  <h1>Order Drink</h1>
+          
+                  <table style="width:100%">
+                     <thead>
+                      <tr>
+                        <th>Time</th>
+                        <th>Order</th>
+                      </tr>
+                  </thead>
+                  <tbody>   
+                      <tr>
+                          <td id="DTime"></td>
+                          <td id="DOrder"></td>
+                      </tr>
+                  </tbody>    
+                    </table>
+                    <br><br> 
+            
+            </tmain>
+            <label>Status</label>
+            <h4 id="result"></h4>
+        </div>
+      </div>
+    
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js">
+    </script>
+   
+   
+   
+   <script>
+        if (typeof web3 !== 'undefined') {
+            // this statement is executed if you are using 
+            // MetaMask 
+            async function enableAccounts() {            
+                await ethereum.enable()
+            }        
+            enableAccounts();  
+        } else {
+            // set the provider you want from Web3.providers
+            web3 = new Web3(
+                new Web3.providers.HttpProvider(
+                "http://localhost:8545"));
+        }
+
+        let abi = [
+	{
+		"constant": false,
+		"inputs": [],
+		"name": "ds_order1",
+		"outputs": [],
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [],
+		"name": "ds_order3",
+		"outputs": [],
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [],
+		"name": "d_order2",
+		"outputs": [],
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [],
+		"name": "ds_order2",
+		"outputs": [],
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [],
+		"name": "d_order3",
+		"outputs": [],
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [],
+		"name": "d_order1",
+		"outputs": [],
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "_value",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"name": "_count",
+				"type": "uint64"
+			}
+		],
+		"name": "TransactionCheck",
+		"type": "event"
+	}
+
+]
+        var contract = web3.eth.contract(abi);
+        var myContract = contract.at(
+            '0xC9A51755a259410878Ae707ECA95390C142171CC');        
+
+            $(document).ready(function () {
+        web3.eth.getAccounts(function (error, result) {
+            $(".yourAccount").html("Your account is <b>"+result+"</b>");
+        });
+        getList();
+    });
+
+    var completeEvent = myContract.TransactionCheck();
+
+completeEvent.watch(function(result ) {
+  
+$("#result").html("confirmation success");               
+               
+}
+);
+
+
+function formatDate(date) {
+  var hours = date.getHours();
+  var minutes = date.getMinutes();
+  var ampm = hours >= 12 ? 'pm' : 'am';
+  hours = hours % 12;
+  hours = hours ? hours : 12; // the hour '0' should be '12'
+  minutes = minutes < 10 ? '0'+minutes : minutes;
+  var strTime = hours + ':' + minutes + ' ' + ampm;
+  return strTime;
+}
+
+        $("#btDsOrder1").click(function() {
+           
+            myContract.ds_order1($().val(),
+            {
+              gas: 300000,
+              from: web3.eth.accounts[0],
+              value: 20000000000000000
+            },
+
+	    (error, result) => {
+                $("#result").html("order pending confirmation...");
+             
+            })
+            var OrderTimeset  = myContract.TransactionCheck();
+            OrderTimeset.watch(function(result ) {
+  
+        
+                $("#DSTime").html(formatDate(new Date()));
+                $("#DSOrder").html("DS_Order1");
+                               
+                 
+            }
+            );
+        });
+         
+        $("#btDsOrder2").click(function() {
+           
+           myContract.ds_order2($().val(),
+           {
+             gas: 300000,
+             from: web3.eth.accounts[0],
+             value: 30000000000000000
+           },
+
+       (error, result) => {
+               $("#result").html("order pending confirmation...");
+            
+           })
+           var OrderTimeset  = myContract.TransactionCheck();
+           OrderTimeset.watch(function(result ) {
+ 
+       
+               $("#DSTime").html(formatDate(new Date()));
+               $("#DSOrder").html("DS_Order2");
+                              
+                
+           }
+           );
+       });
+
+       $("#btDsOrder3").click(function() {
+           
+           myContract.ds_order3($().val(),
+           {
+             gas: 300000,
+             from: web3.eth.accounts[0],
+             value: 10000000000000000
+           },
+
+       (error, result) => {
+               $("#result").html("order pending confirmation...");
+            
+           })
+           var OrderTimeset  = myContract.TransactionCheck();
+           OrderTimeset.watch(function(result ) {
+ 
+       
+               $("#DSTime").html(formatDate(new Date()));
+               $("#DSOrder").html("DS_Order3");
+                              
+                
+           }
+           );
+       });
+       $("#btDOrder1").click(function() {
+           
+           myContract.d_order1($().val(),
+           {
+             gas: 300000,
+             from: web3.eth.accounts[0],
+             value: 10000000000000000
+           },
+
+       (error, result) => {
+               $("#result").html("order pending confirmation...");
+            
+           })
+           var OrderTimeset  = myContract.TransactionCheck();
+           OrderTimeset.watch(function(result ) {
+ 
+       
+               $("#DTime").html(formatDate(new Date()));
+               $("#DOrder").html("D_Order1");
+                              
+                
+           }
+           );
+       });
+       $("#btDOrder2").click(function() {
+           
+           myContract.d_order2($().val(),
+           {
+             gas: 300000,
+             from: web3.eth.accounts[0],
+             value: 20000000000000000
+           },
+
+       (error, result) => {
+               $("#result").html("order pending confirmation...");
+            
+           })
+           var OrderTimeset  = myContract.TransactionCheck();
+           OrderTimeset.watch(function(result ) {
+ 
+       
+               $("#DTime").html(formatDate(new Date()));
+               $("#DOrder").html("D_Order2");
+                              
+                
+           }
+           );
+       });
+       $("#btDOrder3").click(function() {
+           
+           myContract.d_order3($().val(),
+           {
+             gas: 300000,
+             from: web3.eth.accounts[0],
+             value: 30000000000000000
+           },
+
+       (error, result) => {
+               $("#result").html("order pending confirmation...");
+            
+           })
+           var OrderTimeset  = myContract.TransactionCheck();
+           OrderTimeset.watch(function(result ) {
+ 
+       
+               $("#DTime").html(formatDate(new Date()));
+               $("#DOrder").html("D_Order3");
+                              
+                
+           }
+           );
+       });
+
+    </script>
+</body>
+</html>
