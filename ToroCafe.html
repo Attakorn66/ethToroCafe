@@ -71,21 +71,50 @@
 
         </div>
         <div class="w3-container w3-half">
-            <tmain>
-                <h1>Order</h1>
+            <br><br><br><br>
+            <tmain class="w3-table-all w3-large">
+                
+                <h1>Order Desserts</h1>
           
-                <table style="width:50%">
+                <table style="width:100%">
+                   <thead>
                     <tr>
                       <th>Time</th>
-                      <th>Oder</th>
+                      <th>Order</th>
                     </tr>
-                   
+                </thead>
+                <tbody>   
+                    <tr>
+                        <td id="DSTime"></td>
+                        <td id="DSOrder"></td>
+                    </tr>
+                </tbody>    
                   </table>
+                  <br><br>
+                  <h1>Order Drink</h1>
+          
+                  <table style="width:100%">
+                     <thead>
+                      <tr>
+                        <th>Time</th>
+                        <th>Order</th>
+                      </tr>
+                  </thead>
+                  <tbody>   
+                      <tr>
+                          <td id="DTime"></td>
+                          <td id="DOrder"></td>
+                      </tr>
+                  </tbody>    
+                    </table>
+                    <br><br> 
+            
             </tmain>
+            <label>Status</label>
+            <h4 id="result"></h4>
         </div>
       </div>
-      
-
+    
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js">
     </script>
    
@@ -171,17 +200,23 @@
 			},
 			{
 				"indexed": false,
-				"name": "reason",
-				"type": "string"
+				"name": "_value",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"name": "_count",
+				"type": "uint64"
 			}
 		],
-		"name": "OrderError",
+		"name": "TransactionCheck",
 		"type": "event"
 	}
+
 ]
         var contract = web3.eth.contract(abi);
         var myContract = contract.at(
-            '0x9b84Bd1d37F16742341b80fFA46B78ebBc30E480');        
+            '0xC9A51755a259410878Ae707ECA95390C142171CC');        
 
             $(document).ready(function () {
         web3.eth.getAccounts(function (error, result) {
@@ -189,9 +224,28 @@
         });
         getList();
     });
-       
 
-        
+    var completeEvent = myContract.TransactionCheck();
+
+completeEvent.watch(function(result ) {
+  
+$("#result").html("confirmation success");               
+               
+}
+);
+
+
+function formatDate(date) {
+  var hours = date.getHours();
+  var minutes = date.getMinutes();
+  var ampm = hours >= 12 ? 'pm' : 'am';
+  hours = hours % 12;
+  hours = hours ? hours : 12; // the hour '0' should be '12'
+  minutes = minutes < 10 ? '0'+minutes : minutes;
+  var strTime = hours + ':' + minutes + ' ' + ampm;
+  return strTime;
+}
+
         $("#btDsOrder1").click(function() {
            
             myContract.ds_order1($().val(),
@@ -202,71 +256,143 @@
             },
 
 	    (error, result) => {
-                $("#result").html("Order pending confirmation...");
+                $("#result").html("order pending confirmation...");
              
             })
-    
+            var OrderTimeset  = myContract.TransactionCheck();
+            OrderTimeset.watch(function(result ) {
+  
+        
+                $("#DSTime").html(formatDate(new Date()));
+                $("#DSOrder").html("DS_Order1");
+                               
+                 
+            }
+            );
         });
          
         $("#btDsOrder2").click(function() {
-            myContract.ds_order2($().val(),
-            {
-              gas: 300000,
-              from: web3.eth.accounts[0],
-              value: 30000000000000000
-            },
-	    (error, result) => {
-                $("#result").html("Order pending confirmation...");
-            })
+           
+           myContract.ds_order2($().val(),
+           {
+             gas: 300000,
+             from: web3.eth.accounts[0],
+             value: 30000000000000000
+           },
+
+       (error, result) => {
+               $("#result").html("order pending confirmation...");
             
-        });
-         
-        $("#btDsOrder3").click(function() {
-            myContract.ds_order3($().val(),
-            {
-              gas: 300000,
-              from: web3.eth.accounts[0],
-              value: 10000000000000000
-            },
-	    (error, result) => {
-                $("#result").html("Order pending confirmation...");
-            });
-        });
-        $("#btDOrder1").click(function() {
-            myContract.ds_order1($().val(),
-            {
-              gas: 300000,
-              from: web3.eth.accounts[0],
-              value: 10000000000000000
-            },
-	    (error, result) => {
-                $("#result").html("Order pending confirmation...");
-            });
-        });
-         
-        $("#btDOrder2").click(function() {
-            myContract.ds_order2($().val(),
-            {
-              gas: 300000,
-              from: web3.eth.accounts[0],
-              value: 20000000000000000
-            },
-	    (error, result) => {
-                $("#result").html("Order pending confirmation...");
-            });
-        });
-         
-        $("#btDOrder3").click(function() {
-            myContract.ds_order3($().val(),
-            {
-              gas: 300000,
-              from: web3.eth.accounts[0],
-              value: 30000000000000000
-            },
-	    (error, result) => {
-                $("#result").html("Order pending confirmation...");
-            });
-        });
+           })
+           var OrderTimeset  = myContract.TransactionCheck();
+           OrderTimeset.watch(function(result ) {
+ 
+       
+               $("#DSTime").html(formatDate(new Date()));
+               $("#DSOrder").html("DS_Order2");
+                              
+                
+           }
+           );
+       });
+
+       $("#btDsOrder3").click(function() {
+           
+           myContract.ds_order3($().val(),
+           {
+             gas: 300000,
+             from: web3.eth.accounts[0],
+             value: 10000000000000000
+           },
+
+       (error, result) => {
+               $("#result").html("order pending confirmation...");
+            
+           })
+           var OrderTimeset  = myContract.TransactionCheck();
+           OrderTimeset.watch(function(result ) {
+ 
+       
+               $("#DSTime").html(formatDate(new Date()));
+               $("#DSOrder").html("DS_Order3");
+                              
+                
+           }
+           );
+       });
+       $("#btDOrder1").click(function() {
+           
+           myContract.d_order1($().val(),
+           {
+             gas: 300000,
+             from: web3.eth.accounts[0],
+             value: 10000000000000000
+           },
+
+       (error, result) => {
+               $("#result").html("order pending confirmation...");
+            
+           })
+           var OrderTimeset  = myContract.TransactionCheck();
+           OrderTimeset.watch(function(result ) {
+ 
+       
+               $("#DTime").html(formatDate(new Date()));
+               $("#DOrder").html("D_Order1");
+                              
+                
+           }
+           );
+       });
+       $("#btDOrder2").click(function() {
+           
+           myContract.d_order2($().val(),
+           {
+             gas: 300000,
+             from: web3.eth.accounts[0],
+             value: 20000000000000000
+           },
+
+       (error, result) => {
+               $("#result").html("order pending confirmation...");
+            
+           })
+           var OrderTimeset  = myContract.TransactionCheck();
+           OrderTimeset.watch(function(result ) {
+ 
+       
+               $("#DTime").html(formatDate(new Date()));
+               $("#DOrder").html("D_Order2");
+                              
+                
+           }
+           );
+       });
+       $("#btDOrder3").click(function() {
+           
+           myContract.d_order3($().val(),
+           {
+             gas: 300000,
+             from: web3.eth.accounts[0],
+             value: 30000000000000000
+           },
+
+       (error, result) => {
+               $("#result").html("order pending confirmation...");
+            
+           })
+           var OrderTimeset  = myContract.TransactionCheck();
+           OrderTimeset.watch(function(result ) {
+ 
+       
+               $("#DTime").html(formatDate(new Date()));
+               $("#DOrder").html("D_Order3");
+                              
+                
+           }
+           );
+       });
+
     </script>
 </body>
 </html>
